@@ -12,7 +12,7 @@ jobs: #what jobs to run whenever we have a trigger. All jobs will run in paralle
       - name: Use Node.js version 16
         uses: actions/setup-node@v2 #step 2: setup node
         with:
-          node-version: '16'
+          node-version: "16"
       - run: npm install # use our own commands with the OS terminal
       - run: npm run build --prefix client #build our frontend
 
