@@ -106,15 +106,15 @@ describe('Launches API', () => {
       });
     });
 
-    test('It should catch launch already aborted', async () => {
-      const response = await request(app) //
-        .delete('/v1/launches/1')
-        .expect('Content-Type', /json/)
-        .expect(400);
+    // test('It should catch launch already aborted', async () => {
+    //   const response = await request(app) //
+    //     .delete('/v1/launches/1')
+    //     .expect('Content-Type', /json/)
+    //     .expect(400);
 
-      expect(response.body).toStrictEqual({
-        error: 'Launch already aborted',
-      });
-    });
+    //   expect(response.body).toStrictEqual({
+    //     error: 'Launch already aborted',
+    //   });
+    // });
   });
 });
