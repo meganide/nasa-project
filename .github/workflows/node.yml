@@ -5,16 +5,22 @@ on: #triggers that will cause workflow to run
   pull_request: 
     branches: [ main ]
 jobs: #what jobs to run whenever we have a trigger. All jobs will run in parallel, need to add extra requirements if we want to run deploy only if build succeeded.
-  build: 
+  build:
+    env: # the environment in which all jobs/actions will run. 
+      CI: true # create react app test script will know we are running in CI environemnt and will disable watch mode.
+    strategy:
+      matrix: # make sure our code works on different node versions
+        node-version: [14.x, 16.x] #our commands should be ran on these versions also. 2 build jobs will run in parallel.
     runs-on: ubuntu-latest #which platform should this build run on? Which OS will our server run on?
     steps: # which actions will be triggered on ubuntu?
       - uses: actions/checkout@v2  #step 1: #premade action/script in github actions. Make the code in repo available as part of the workflow. Allows the workflow to access and manipulate code, such as building ,testing or deploying it.
-      - name: Use Node.js version 16
+      - name: Use Node.js version ${{ matrix.node-version }}
         uses: actions/setup-node@v2 #step 2: setup node
         with:
-          node-version: "16"
+          node-version: ${{ matrix.node-version }}
       - run: npm install # use our own commands with the OS terminal
       - run: npm run build --prefix client #build our frontend
+      - run: npm test
 
  
   #deploy:
