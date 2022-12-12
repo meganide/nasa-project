@@ -22,8 +22,8 @@ jobs: #what jobs to run whenever we have a trigger. All jobs will run in paralle
           node-version: ${{ matrix.node-version }}
       - name: Use MongoDB from Github Actions
         uses: supercharge/mongodb-github-action@1.6.0
-          with:
-            mongodb-version: ${{ matrix.mongodb-version }}
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
       - run: npm install # use our own commands with the OS terminal
       - run: npm run build --prefix client #build our frontend
       - run: npm test
