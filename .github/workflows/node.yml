@@ -8,9 +8,11 @@ jobs: #what jobs to run whenever we have a trigger. All jobs will run in paralle
   build:
     env: # the environment in which all jobs/actions will run. 
       CI: true # create react app test script will know we are running in CI environemnt and will disable watch mode.
+      MONGO_URL: mongodb://localhost/nasa
     strategy:
       matrix: # make sure our code works on different node versions
         node-version: [14.x, 16.x] #our commands should be ran on these versions also. 2 build jobs will run in parallel.
+        mongodb-version: ['4.4']
     runs-on: ubuntu-latest #which platform should this build run on? Which OS will our server run on?
     steps: # which actions will be triggered on ubuntu?
       - uses: actions/checkout@v2  #step 1: #premade action/script in github actions. Make the code in repo available as part of the workflow. Allows the workflow to access and manipulate code, such as building ,testing or deploying it.
@@ -18,6 +20,10 @@ jobs: #what jobs to run whenever we have a trigger. All jobs will run in paralle
         uses: actions/setup-node@v2 #step 2: setup node
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Use MongoDB from Github Actions
+        uses: supercharge/mongodb-github-action@1.6.0
+          with:
+            mongodb-version: ${{ matrix.mongodb-version }}
       - run: npm install # use our own commands with the OS terminal
       - run: npm run build --prefix client #build our frontend
       - run: npm test
